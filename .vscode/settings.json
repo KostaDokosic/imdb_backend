@@ -1,0 +1,4 @@
+{
+    "nuxt.isNuxtApp": false,
+    "phpcs.standard": "../../vivify/"
+}
