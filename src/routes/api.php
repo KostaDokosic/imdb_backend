@@ -11,6 +11,7 @@
 |
 */
 
+
 Route::group([ 'namespace' => 'Api' ], function () {
     Route::group([ 'prefix' => 'auth' ], function ($router) {
         Route::post('register', 'AuthController@register');
@@ -19,6 +20,8 @@ Route::group([ 'namespace' => 'Api' ], function () {
         Route::post('refresh', 'AuthController@refresh');
         Route::get('me', 'AuthController@me');
     });
+
+    Route::apiResource('movies', 'MovieController');
 
     Route::group([
         'prefix' => 'user',
