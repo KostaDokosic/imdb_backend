@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\MovieCollection;
 use App\Models\Movie\Movie;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,7 @@ class MovieController extends Controller
      */
     public function index()
     {
-        return response(Movie::all(), 200);
+        return response(new MovieCollection(Movie::all()), 200);
     }
 
     /**
