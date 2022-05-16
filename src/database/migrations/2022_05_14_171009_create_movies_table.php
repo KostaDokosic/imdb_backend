@@ -15,7 +15,7 @@ class CreateMoviesTable extends Migration
     {
         Schema::create('movies', function (Blueprint $table) {
             $table->id();
-            $table->string('title', 256);
+            $table->string('title', 256)->unique();
             $table->string('genre', 50)->default('none');
             $table->longText('description')->default('');
             $table->longText('coverImage');
