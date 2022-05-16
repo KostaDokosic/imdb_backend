@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Movie\Movie;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder {
@@ -11,5 +12,7 @@ class DatabaseSeeder extends Seeder {
     public function run()
     {
         // $this->call(UsersTableSeeder::class);
+        Movie::truncate();
+        Movie::factory()->count(10)->create();
     }
 }

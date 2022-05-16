@@ -20,6 +20,11 @@ Route::group([ 'namespace' => 'Api' ], function () {
         Route::get('me', 'AuthController@me');
     });
 
+    Route::group([ 'prefix' => 'movie' ], function ($router) {
+       Route::post('add', 'MovieController@add');
+       ROute::get('getall', 'MovieController@getall');
+    });
+
     Route::group([
         'prefix' => 'user',
         'namespace' => 'User'
