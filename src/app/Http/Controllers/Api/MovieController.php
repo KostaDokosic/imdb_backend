@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\MovieCollection;
 use App\Models\Movie\Movie;
 use Illuminate\Http\Request;
+use \App\Http\Requests\StoreMovieRequest;
 
 class MovieController extends Controller
 {
@@ -22,17 +23,12 @@ class MovieController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\StoreMovieRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreMovieRequest $request)
     {
-        $data = $request->validate([
-            'title' => 'required|unique:movies|max:255',
-            'description' => 'required',
-            'coverImage' => 'required',
-            'genre' => 'required'
-        ]);
+        $data = $request->validated();
         Movie::create([
             'title' => $data['title'],
             'description' => $data['description'],
