@@ -10,14 +10,10 @@ use \App\Http\Requests\StoreMovieRequest;
 
 class MovieController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *ß
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+
+    public function index(Request $request)
     {
-        return response(new MovieCollection(Movie::all()), 200);
+        return new MovieCollection(Movie::paginate(8));
     }
 
     /**

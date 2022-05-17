@@ -2,9 +2,10 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Movie\Movie;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class MovieCollection extends ResourceCollection
+class MovieResource extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.

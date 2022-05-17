@@ -13,6 +13,6 @@ class DatabaseSeeder extends Seeder {
     {
         // $this->call(UsersTableSeeder::class);
         Movie::truncate();
-        Movie::factory()->count(10)->create();
+        Movie::factory()->count(100)->create();
     }
 }
