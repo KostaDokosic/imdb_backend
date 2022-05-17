@@ -3,38 +3,31 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\MovieResource;
-use App\Models\Movie\Movie;
+use App\Http\Resources\GenreResource;
+use App\Models\Genre\Genre;
 use Illuminate\Http\Request;
-use \App\Http\Requests\StoreMovieRequest;
 
-class MovieController extends Controller
+class GenreController extends Controller
 {
-
-    public function index(Request $request)
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
     {
-        $movies = Movie::paginate(8);
-        if($request['genre'] >= 0) $movies = $movies->where('genre', $request['genre']);
-
-        return new MovieResource($movies);
+        return response(new GenreResource(Genre::all('name', 'id')));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreMovieRequest  $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreMovieRequest $request)
+    public function store(Request $request)
     {
-        $data = $request->validated();
-        Movie::create([
-            'title' => $data['title'],
-            'description' => $data['description'],
-            'coverImage' => $data['coverImage'],
-            'genre' => $data['genre'],
-        ]);
-        return response('success', 200);
+        //
     }
 
     /**

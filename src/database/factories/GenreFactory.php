@@ -3,30 +3,26 @@
 namespace Database\Factories;
 
 use App\Models\Genre\Genre;
-use App\Models\Movie\Movie;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class MovieFactory extends Factory
+class GenreFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Movie::class;
+    protected $model = Genre::class;
 
     /**
      * Define the model's default state.
      *
      * @return array
      */
-    public function definition(): array
+    public function definition()
     {
         return [
-            'title' => $this->faker->sentence(),
-            'genre' => Genre::factory(),
-            'description' => $this->faker->realText(),
-            'coverImage' => $this->faker->imageUrl()
+            'name' => $this->faker->unique()->word()
         ];
     }
 }

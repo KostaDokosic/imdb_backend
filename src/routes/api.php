@@ -22,6 +22,7 @@ Route::group([ 'namespace' => 'Api' ], function () {
     });
 
     Route::apiResource('movies', 'MovieController');
+    Route::apiResource('genres', 'GenreController');
 
     Route::group([
         'prefix' => 'user',
