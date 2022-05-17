@@ -15,9 +15,6 @@ class MovieCollection extends ResourceCollection
      */
     public function toArray($request): array
     {
-        return [
-            'movies' => parent::toArray($request),
-            'total' => Movie::all()->count()
-        ];
+        return parent::toArray($request);
     }
 }

@@ -7,22 +7,13 @@ use App\Http\Resources\MovieCollection;
 use App\Models\Movie\Movie;
 use Illuminate\Http\Request;
 use \App\Http\Requests\StoreMovieRequest;
-use function PHPUnit\Framework\isNan;
 
 class MovieController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *ß
-     * @return \Illuminate\Http\Response
-     */
+
     public function index(Request $request)
     {
-        $pageNumber = $request->get('currentPage');
-        $start = $pageNumber * 8;
-        if($start != 0) $start++;
-        $movies = new MovieCollection(Movie::all()->whereBetween('id', [$start, $start + 8]));
-        return response($movies, 200);
+        return new MovieCollection(Movie::paginate(8));
     }
 
     /**
