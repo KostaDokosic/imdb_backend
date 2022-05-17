@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Movie\Movie;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class MovieCollection extends ResourceCollection
@@ -14,6 +15,9 @@ class MovieCollection extends ResourceCollection
      */
     public function toArray($request): array
     {
-        return parent::toArray($request);
+        return [
+            'movies' => parent::toArray($request),
+            'total' => Movie::all()->count()
+        ];
     }
 }
