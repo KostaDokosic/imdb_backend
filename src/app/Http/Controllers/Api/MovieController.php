@@ -38,6 +38,7 @@ class MovieController extends Controller
             'description' => $data['description'],
             'coverImage' => $data['coverImage'],
         ]);
+        $movie->genres()->attach($data['genre_ids']);
         return response('success', 200);
     }
 
