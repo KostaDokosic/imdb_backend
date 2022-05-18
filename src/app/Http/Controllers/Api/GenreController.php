@@ -9,14 +9,10 @@ use Illuminate\Http\Request;
 
 class GenreController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        return response(new GenreResource(Genre::all('name', 'id')));
+        return new GenreResource(Genre::all('id', 'name'));
     }
 
     /**

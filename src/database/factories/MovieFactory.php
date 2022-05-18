@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\Genre\Genre;
 use App\Models\Movie\Movie;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
