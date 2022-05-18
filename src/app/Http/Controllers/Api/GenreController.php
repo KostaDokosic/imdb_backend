@@ -12,7 +12,7 @@ class GenreController extends Controller
 
     public function index()
     {
-        return new GenreResource(Genre::all('id', 'name'));
+        return GenreResource::collection(Genre::all());
     }
 
     /**

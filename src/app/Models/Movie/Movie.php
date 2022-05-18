@@ -2,6 +2,7 @@
 
 namespace App\Models\Movie;
 
+use App\Models\Comment\Comment;
 use App\Models\Genre\Genre;
 use Database\Factories\MovieFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -19,6 +20,11 @@ class Movie extends Model
     public function genres()
     {
         return $this->belongsToMany(Genre::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 
     protected $fillable = ['title', 'description', 'coverImage', 'genre'];

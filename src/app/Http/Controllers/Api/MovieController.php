@@ -14,12 +14,14 @@ class MovieController extends Controller
 
     public function index(FilterRequest $request)
     {
+        $query = Movie::with('genres')->latest();
         if($request->filled('genre_ids')) {
-            return Movie::with('genres')->whereHas('genres', function ($q) use ($request) {
+            $query->whereHas('genres', function ($q) use ($request) {
                 $q->whereIn('id', $request->genre_ids);
-            })->paginate(8);
+            });
         }
-        return new MovieResource(Movie::with('genres')->paginate(8));
+
+        return MovieResource::collection($query->paginate(8));
     }
 
     /**
@@ -31,11 +33,10 @@ class MovieController extends Controller
     public function store(StoreMovieRequest $request)
     {
         $data = $request->validated();
-        Movie::create([
+        $movie = Movie::create([
             'title' => $data['title'],
             'description' => $data['description'],
             'coverImage' => $data['coverImage'],
-            'genre' => $data['genre'], //TODO:
         ]);
         return response('success', 200);
     }
