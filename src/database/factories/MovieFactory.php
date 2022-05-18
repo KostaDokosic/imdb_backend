@@ -24,7 +24,6 @@ class MovieFactory extends Factory
     {
         return [
             'title' => $this->faker->sentence(),
-            'genre' => Genre::factory(),
             'description' => $this->faker->realText(),
             'coverImage' => $this->faker->imageUrl()
         ];

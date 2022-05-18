@@ -16,9 +16,9 @@ class Genre extends Model
         return GenreFactory::new();
     }
 
-    public function movie()
+    public function movies()
     {
-        return $this->hasMany(Movie::class);
+        return $this->belongsToMany(Movie::class);
     }
 
     protected $fillable = ['name'];
