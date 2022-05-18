@@ -14,10 +14,13 @@ class CreateGenreMovieTable extends Migration
     public function up()
     {
         Schema::create('genre_movie', function (Blueprint $table) {
-            $table->id();
+            $table->primary(['movie_id', 'genre_id']);
             $table->timestamps();
             $table->unsignedBigInteger('movie_id');
             $table->unsignedInteger('genre_id');
+
+            $table->foreign('movie_id')->references('id')->on('movies')->onDelete('cascade');
+            $table->foreign('genre_id')->references('id')->on('genres')->onDelete('cascade');
         });
     }
 
