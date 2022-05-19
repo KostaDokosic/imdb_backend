@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Genre\Genre;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class StoreMovieRequest extends FormRequest
+class FilterRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +26,7 @@ class StoreMovieRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|unique:movies|max:255',
-            'description' => 'required',
-            'coverImage' => 'required',
+            'page' => 'int|required',
             'genre_ids.*' => 'numeric'
         ];
     }

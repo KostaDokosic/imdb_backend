@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\MovieCollection;
+use App\Http\Requests\FilterRequest;
+use App\Http\Resources\MovieResource;
 use App\Models\Movie\Movie;
 use Illuminate\Http\Request;
 use \App\Http\Requests\StoreMovieRequest;
@@ -11,9 +12,16 @@ use \App\Http\Requests\StoreMovieRequest;
 class MovieController extends Controller
 {
 
-    public function index(Request $request)
+    public function index(FilterRequest $request)
     {
-        return new MovieCollection(Movie::paginate(8));
+        $query = Movie::with('genres')->latest();
+        if($request->filled('genre_ids')) {
+            $query->whereHas('genres', function ($q) use ($request) {
+                $q->whereIn('id', $request->genre_ids);
+            });
+        }
+
+        return MovieResource::collection($query->paginate(8));
     }
 
     /**
@@ -25,12 +33,12 @@ class MovieController extends Controller
     public function store(StoreMovieRequest $request)
     {
         $data = $request->validated();
-        Movie::create([
+        $movie = Movie::create([
             'title' => $data['title'],
             'description' => $data['description'],
             'coverImage' => $data['coverImage'],
-            'genre' => $data['genre'],
         ]);
+        $movie->genres()->attach($data['genre_ids']);
         return response('success', 200);
     }
 
