@@ -19,7 +19,9 @@ class MovieResource extends JsonResource
             'title' => $this->title,
             'description' => $this->description,
             'coverImage' => $this->coverImage,
-            'genres' => $this->genres->pluck('id')
+            'genres' => $this->genres->pluck('id'),
+            'totalLikes' => $this->likes->count(),
+            'userLike' => $this->likes->where('user_id', $request->user()->id)->pluck('like')->first()
         ];
     }
 }

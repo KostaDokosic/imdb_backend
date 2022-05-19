@@ -3,43 +3,48 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\FilterRequest;
-use App\Http\Resources\MovieResource;
-use App\Models\Movie\Movie;
+use App\Http\Requests\LikeRequest;
+use App\Models\Like\Like;
 use Illuminate\Http\Request;
-use \App\Http\Requests\StoreMovieRequest;
 
-class MovieController extends Controller
+class LikeController extends Controller
 {
-
-    public function index(FilterRequest $request)
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
     {
-        $query = Movie::with('genres', 'likes')->latest();
-        if($request->filled('genre_ids')) {
-            $query->whereHas('genres', function ($q) use ($request) {
-                $q->whereIn('id', $request->genre_ids);
-            });
-        }
-
-        return MovieResource::collection($query->paginate(8));
+        //
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreMovieRequest  $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreMovieRequest $request)
+    public function store(LikeRequest $request)
     {
         $data = $request->validated();
-        $movie = Movie::create([
-            'title' => $data['title'],
-            'description' => $data['description'],
-            'coverImage' => $data['coverImage'],
+
+        $oldLikes = Like::all()->where('movie_id', $data['movie_id'])->where('user_id', $request->user()->id);
+        if($oldLikes->count() > 0) {
+            $oldLike = $oldLikes->first();
+            if($oldLike->like == $data['like']) return response(1, 200);
+            else {
+                $oldLike->like = $data['like'];
+                return response(1, 200);
+            }
+        }
+
+        Like::create([
+            'movie_id' => $data['movie_id'],
+            'user_id' => $request->user()->id,
+            'like' => $data['like']
         ]);
-        $movie->genres()->attach($data['genre_ids']);
-        return response('success', 200);
+        return response(1, 200);
     }
 
     /**
