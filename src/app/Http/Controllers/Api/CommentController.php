@@ -18,21 +18,22 @@ class CommentController extends Controller
         return CommentResource::collection($query->paginate());
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(CommentRequest $request)
     {
         $data = $request->validated();
         Comment::create([
-            'user_id' => $data['user_id'],
+            'user_id' => $request->user(),
             'movie_id' => $data['movie_id'],
             'comment' => $data['text']
         ]);
-        return response('success', 200);
+        return CommentResource::collection(
+            Comment::with('user')
+                ->latest()
+                ->where('movie_id', $data['movie_id'])
+                ->orderBy('id', 'desc')
+                ->limit(1)
+                ->get()
+        );
     }
 
     /**

@@ -26,7 +26,6 @@ class CommentRequest extends FormRequest
         return [
             'movie_id' => 'int|required',
             'text' => 'required',
-            'user_id' => 'int|required'
         ];
     }
 }

@@ -2,9 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Genre\Genre;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class FilterRequest extends FormRequest
 {
@@ -27,7 +25,7 @@ class FilterRequest extends FormRequest
     {
         return [
             'page' => 'int|required',
-            'genre_ids.*' => 'numeric'
+            'genre_ids.*' => 'numeric',
         ];
     }
 }
