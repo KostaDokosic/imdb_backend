@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LikeRequest;
+use App\Http\Resources\LikeResource;
 use App\Models\Like\Like;
 use Illuminate\Http\Request;
 
@@ -19,12 +20,6 @@ class LikeController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(LikeRequest $request)
     {
         $data = $request->validated();
@@ -32,19 +27,16 @@ class LikeController extends Controller
         $oldLikes = Like::all()->where('movie_id', $data['movie_id'])->where('user_id', $request->user()->id);
         if($oldLikes->count() > 0) {
             $oldLike = $oldLikes->first();
-            if($oldLike->like == $data['like']) return response(1, 200);
-            else {
-                $oldLike->like = $data['like'];
-                return response(1, 200);
-            }
+            $oldLike->like = $data['like'];
+            return LikeResource::collection($oldLikes);
         }
 
-        Like::create([
+        $newLike = Like::create([
             'movie_id' => $data['movie_id'],
             'user_id' => $request->user()->id,
             'like' => $data['like']
         ]);
-        return response(1, 200);
+        return LikeResource::make($newLike);
     }
 
     /**
