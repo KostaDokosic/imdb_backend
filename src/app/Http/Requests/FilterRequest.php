@@ -25,7 +25,8 @@ class FilterRequest extends FormRequest
     {
         return [
             'page' => 'int|required',
-            'genre_ids.*' => 'numeric',
+            'genre_ids.*' => 'sometimes|numeric',
+            'likeFilter' => 'sometimes|boolean'
         ];
     }
 }
