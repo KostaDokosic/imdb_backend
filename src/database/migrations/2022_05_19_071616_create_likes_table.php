@@ -17,7 +17,8 @@ class CreateLikesTable extends Migration
             $table->id();
             $table->timestamps();
             $table->unsignedInteger('user_id');
-            $table->unsignedBigInteger('movie_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreignId('movie_id')->constrained('movies')->cascadeOnDelete();
             $table->boolean('like')->default(true);
         });
     }
