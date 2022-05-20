@@ -24,6 +24,7 @@ Route::group([ 'namespace' => 'Api' ], function () {
     Route::apiResource('movies', 'MovieController');
     Route::apiResource('genres', 'GenreController');
     Route::apiResource('comments', 'CommentController');
+    Route::apiResource('likes', 'LikeController');
 
     Route::group([
         'prefix' => 'user',

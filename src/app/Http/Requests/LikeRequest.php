@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class FilterRequest extends FormRequest
+class LikeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,8 @@ class FilterRequest extends FormRequest
     public function rules()
     {
         return [
-            'page' => 'int|required',
-            'genre_ids.*' => 'sometimes|numeric',
-            'likeFilter' => 'sometimes|boolean'
+            'movie_id' => 'int|required',
+            'like' => 'boolean|required'
         ];
     }
 }
