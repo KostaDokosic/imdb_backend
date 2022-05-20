@@ -20,6 +20,11 @@ class MovieController extends Controller
                 $q->whereIn('id', $request->genre_ids);
             });
         }
+        if($request->filled('likeFilter')) {
+            $query->whereHas('likes', function ($q) use ($request) {
+                $q->where('like', $request->likeFilter);
+            });
+        }
 
         return MovieResource::collection($query->paginate(8));
     }
