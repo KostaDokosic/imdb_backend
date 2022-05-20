@@ -36,7 +36,7 @@ class LikeController extends Controller
             'user_id' => $request->user()->id,
             'like' => $data['like']
         ]);
-        return LikeResource::collection($newLike->get());
+        return LikeResource::make($newLike);
     }
 
     /**
