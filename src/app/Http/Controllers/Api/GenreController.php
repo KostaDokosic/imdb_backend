@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\GenreRequest;
 use App\Http\Resources\GenreResource;
 use App\Models\Genre\Genre;
 use Illuminate\Http\Request;
 
 class GenreController extends Controller
 {
-    public function index()
+    public function index(GenreRequest $request)
     {
         return GenreResource::collection(Genre::all());
     }

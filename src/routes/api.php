@@ -21,10 +21,10 @@ Route::group([ 'namespace' => 'Api' ], function () {
         Route::get('me', 'AuthController@me');
     });
 
-    Route::apiResource('movies', 'MovieController');
-    Route::apiResource('genres', 'GenreController');
-    Route::apiResource('comments', 'CommentController');
-    Route::apiResource('likes', 'LikeController');
+    Route::apiResource('movies', 'MovieController')->middleware('auth');
+    Route::apiResource('genres', 'GenreController')->middleware('auth');
+    Route::apiResource('comments', 'CommentController')->middleware('auth');
+    Route::apiResource('likes', 'LikeController')->middleware('auth');
 
     Route::group([
         'prefix' => 'user',

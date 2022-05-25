@@ -21,19 +21,12 @@ class CommentController extends Controller
     public function store(CommentRequest $request)
     {
         $data = $request->validated();
-        Comment::create([
-            'user_id' => $request->user(),
+        $comment = Comment::create([
+            'user_id' => $request->user()->id,
             'movie_id' => $data['movie_id'],
             'comment' => $data['text']
         ]);
-        return CommentResource::collection(
-            Comment::with('user')
-                ->latest()
-                ->where('movie_id', $data['movie_id'])
-                ->orderBy('id', 'desc')
-                ->limit(1)
-                ->get()
-        );
+        return new CommentResource($comment);
     }
 
     /**
