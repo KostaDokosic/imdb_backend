@@ -13,7 +13,8 @@ class StoreMovieRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        if($this->user()->editor) return true;
+        return false;
     }
 
     /**

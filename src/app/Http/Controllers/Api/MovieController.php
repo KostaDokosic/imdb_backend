@@ -43,7 +43,8 @@ class MovieController extends Controller
             $movie = Movie::create([
                 'title' => $data['title'],
                 'description' => $data['description'],
-                'coverImage' => 'storage/movie_images/' . $imageFile
+                'coverImage' => 'storage/movie_images/' . $imageFile,
+                'creator' => $request->user()->id
             ]);
             $i = 0;
             while($request->filled('genre_ids_' . $i)) {

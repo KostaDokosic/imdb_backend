@@ -33,5 +33,10 @@ class Movie extends Model
         return $this->hasMany(Like::class);
     }
 
+    public function logs()
+    {
+        return $this->hasMany(MovieLogs::class);
+    }
+
     protected $fillable = ['title', 'description', 'coverImage', 'genre'];
 }
