@@ -13,7 +13,8 @@ class LikeRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        if($this->user()) return true;
+        return false;
     }
 
     /**
@@ -25,7 +26,7 @@ class LikeRequest extends FormRequest
     {
         return [
             'movie_id' => 'int|required|exists:movies,id',
-            'like' => 'boolean|required'
+            'like' => 'int|required'
         ];
     }
 }

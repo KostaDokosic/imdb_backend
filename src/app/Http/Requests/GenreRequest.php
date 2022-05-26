@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CommentGetRequest extends FormRequest
+class GenreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,7 @@ class CommentGetRequest extends FormRequest
     public function rules()
     {
         return [
-            'movie_id' => 'required'
+            //
         ];
     }
 }

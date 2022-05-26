@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Movie\Movie;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class LikeResource extends JsonResource
@@ -15,8 +16,9 @@ class LikeResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'movie_id' => $this->movie_id,
-            'like' => $this->like
+            'like' => $this->like,
+            'totalLikes' => Movie::find($this->movie_id)->likes->where('like', 1)->count(),
+            'totalDislikes' => Movie::find($this->movie_id)->likes->where('like', 0)->count()
         ];
     }
 }

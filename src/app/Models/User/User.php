@@ -2,6 +2,7 @@
 
 namespace App\Models\User;
 
+use App\Models\Movie\MovieLogs;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -104,5 +105,10 @@ class User extends Authenticatable implements JWTSubject {
     public function generateVerifyToken()
     {
         $this->verify_token = Str::random(UserConstants::VERIFY_EMAIL_TOKEN_LENGTH);
+    }
+
+    public function logs()
+    {
+        return $this->hasMany(MovieLogs::class);
     }
 }
