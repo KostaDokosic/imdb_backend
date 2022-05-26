@@ -17,7 +17,7 @@ class MovieObserver
     {
         MovieLogs::create([
             'movie_id' => $movie->id,
-            'user_id' => $movie->creator,
+            'user_id' => $movie->user->id
         ]);
     }
 

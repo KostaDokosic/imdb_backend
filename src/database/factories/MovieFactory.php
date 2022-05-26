@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Genre\Genre;
 use App\Models\Movie\Movie;
+use App\Models\User\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
@@ -25,6 +26,16 @@ class MovieFactory extends Factory
     private $usedTitles = [];
     public function definition(): array
     {
+        $admin = User::find(1);
+        if(!$admin) {
+            $admin = User::create([
+                'first_name' => 'Administrator',
+                'last_name' => "Root",
+                'email' => 'root@admin.com',
+                'password' => 'root',
+            ]);
+        }
+
         $movieList = json_decode(Storage::get('movies-list.json'))->movies;
         $rndMovie = Arr::random($movieList);
 
@@ -35,7 +46,8 @@ class MovieFactory extends Factory
         return [
             'title' => $rndMovie->title,
             'description' => $rndMovie->plot,
-            'coverImage' => $rndMovie->posterUrl
+            'coverImage' => $rndMovie->posterUrl,
+            'user_id' => $admin->id
         ];
     }
 }

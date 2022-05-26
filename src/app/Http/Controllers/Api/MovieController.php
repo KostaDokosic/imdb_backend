@@ -44,7 +44,7 @@ class MovieController extends Controller
                 'title' => $data['title'],
                 'description' => $data['description'],
                 'coverImage' => 'storage/movie_images/' . $imageFile,
-                'creator' => $request->user()->id
+                'user_id' => $request->user()->id
             ]);
             $i = 0;
             while($request->filled('genre_ids_' . $i)) {
