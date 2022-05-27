@@ -47,7 +47,10 @@ class MovieFactory extends Factory
             'title' => $rndMovie->title,
             'description' => $rndMovie->plot,
             'coverImage' => $rndMovie->posterUrl,
-            'user_id' => $admin->id
+            'user_id' => $admin->id,
+            'director' => $rndMovie->director,
+            'actors' => $rndMovie->actors,
+            'year' => $rndMovie->year
         ];
     }
 }

@@ -25,9 +25,10 @@ class FilterRequest extends FormRequest
     public function rules()
     {
         return [
-            'page' => 'int|required',
+            'page' => 'sometimes|int',
             'genre_ids.*' => 'sometimes|numeric:array',
-            'likeFilter' => 'sometimes|boolean'
+            'likeFilter' => 'sometimes|boolean',
+            'search' => 'sometimes|max:20'
         ];
     }
 }

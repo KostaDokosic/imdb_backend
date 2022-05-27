@@ -16,15 +16,20 @@ class MovieController extends Controller
     public function index(FilterRequest $request)
     {
         $query = Movie::with('genres', 'likes')->latest();
-        if($request->filled('genre_ids')) {
-            $query->whereHas('genres', function ($q) use ($request) {
-                $q->whereIn('id', $request->genre_ids);
-            });
+        if($request->filled('search')) {
+            $query->where('title', 'like', '%' . $request->search . '%');
         }
-        if($request->filled('likeFilter')) {
-            $query->whereHas('likes', function ($q) use ($request) {
-                $q->where('like', $request->likeFilter);
-            });
+        else {
+            if($request->filled('genre_ids')) {
+                $query->whereHas('genres', function ($q) use ($request) {
+                    $q->whereIn('id', $request->genre_ids);
+                });
+            }
+            if($request->filled('likeFilter')) {
+                $query->whereHas('likes', function ($q) use ($request) {
+                    $q->where('like', $request->likeFilter);
+                });
+            }
         }
 
         return MovieResource::collection($query->paginate(8));
@@ -88,6 +93,6 @@ class MovieController extends Controller
      */
     public function destroy($id)
     {
-        //
+
     }
 }
