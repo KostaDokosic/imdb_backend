@@ -33,6 +33,7 @@ class MovieController extends Controller
 
     public function store(StoreMovieRequest $request)
     {
+        //return $request->header();
         $data = $request->validated();
         if($request->hasFile('coverImage'))
         {
@@ -45,11 +46,7 @@ class MovieController extends Controller
                 'description' => $data['description'],
                 'coverImage' => 'storage/movie_images/' . $imageFile
             ]);
-            $i = 0;
-            while($request->filled('genre_ids_' . $i)) {
-                $movie->genres()->attach($request->input('genre_ids_' . $i));
-                $i++;
-            }
+            $movie->genres()->attach($request->genre_ids);
 
             return new MovieResource($movie);
         }

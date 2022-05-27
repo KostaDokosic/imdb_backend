@@ -13,7 +13,8 @@ class FilterRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        if($this->user()) return true;
+        return false;
     }
 
     /**
@@ -24,9 +25,10 @@ class FilterRequest extends FormRequest
     public function rules()
     {
         return [
-            'page' => 'int|required',
+            'page' => 'sometimes|int',
             'genre_ids.*' => 'sometimes|numeric:array',
-            'likeFilter' => 'sometimes|boolean'
+            'likeFilter' => 'sometimes',
+            'search' => 'sometimes|max:20'
         ];
     }
 }

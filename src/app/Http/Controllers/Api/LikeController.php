@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LikeRequest;
 use App\Http\Resources\LikeResource;
+use App\Http\Resources\RemovedLikeResource;
 use App\Models\Like\Like;
 use App\Models\Movie\Movie;
 use Illuminate\Http\Request;
@@ -31,11 +32,11 @@ class LikeController extends Controller
             $oldLike = $oldLikes->first();
             if($data['like'] === -1) {
                 $oldLike->delete();
-                return [
+                return new RemovedLikeResource([
                     'like' => -1,
                     'totalLikes' => Movie::find($data['movie_id'])->likes->where('like', 1)->count(),
                     'totalDislikes' => Movie::find($data['movie_id'])->likes->where('like', 0)->count()
-                ];
+                ]);
             }
             else {
                 $oldLike->like = $data['like'];
