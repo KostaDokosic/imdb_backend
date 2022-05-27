@@ -16,12 +16,13 @@ class AuthService {
      *
      * @return array
      */
-    private function _respondWithToken($token)
+    private function _respondWithToken($token, $email)
     {
         return [
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
+            'expires_in' => auth()->factory()->getTTL() * 60,
+            'editor' => User::where('email', $email)->get()[0]->editor
         ];
     }
 
@@ -38,7 +39,7 @@ class AuthService {
             throw new UnauthorizedException;
         }
 
-        return $this->_respondWithToken($token);
+        return $this->_respondWithToken($token, $credentials['email']);
     }
 
     /**

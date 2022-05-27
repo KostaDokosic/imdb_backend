@@ -13,7 +13,8 @@ class StoreMovieRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        if($this->user()->editor) return true;
+        return false;
     }
 
     /**
@@ -26,8 +27,8 @@ class StoreMovieRequest extends FormRequest
         return [
             'title' => 'required|unique:movies|max:255',
             'description' => 'required',
-            'coverImage' => 'required',
-            'genre_ids.*' => 'numeric'
+            'coverImage' => 'required|mimes:jpeg,jpg,png|max:2048',
+            'genre_ids' => 'array'
         ];
     }
 }

@@ -17,7 +17,11 @@ class CreateMoviesTable extends Migration
             $table->id();
             $table->string('title', 256)->unique();
             $table->longText('description')->default('');
-            $table->longText('coverImage');
+            $table->string('coverImage');
+            $table->foreignId('user_id')->constrained('users');
+            $table->string('year')->default('');
+            $table->string('actors')->default('');
+            $table->string('director')->default('');
             $table->timestamps();
         });
     }

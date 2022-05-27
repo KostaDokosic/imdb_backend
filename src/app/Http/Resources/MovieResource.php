@@ -20,7 +20,11 @@ class MovieResource extends JsonResource
             'description' => $this->description,
             'coverImage' => $this->coverImage,
             'genres' => $this->genres->pluck('id'),
-            'totalLikes' => $this->likes->count(),
+            'director' => $this->director,
+            'actors' => $this->actors,
+            'year' => $this->year,
+            'totalLikes' => $this->likes->where('like', 1)->count(),
+            'totalDislikes' => $this->likes->where('like', 0)->count(),
             'userLike' => $this->likes->where('user_id', $request->user()->id)->pluck('like')->first()
         ];
     }

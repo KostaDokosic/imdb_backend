@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\SendEmailWhenMovieIsCommented;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CommentGetRequest;
 use App\Http\Requests\CommentRequest;
 use App\Http\Resources\CommentResource;
 use App\Models\Comment\Comment;
+use App\Models\Movie\Movie;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
@@ -16,24 +18,21 @@ class CommentController extends Controller
         $data = $request->validated();
         $query = Comment::with('user')->latest()->where('movie_id', $data['movie_id']);
         return CommentResource::collection($query->paginate());
+
     }
 
     public function store(CommentRequest $request)
     {
         $data = $request->validated();
-        Comment::create([
-            'user_id' => $request->user(),
+        $comment = Comment::create([
+            'user_id' => $request->user()->id,
             'movie_id' => $data['movie_id'],
             'comment' => $data['text']
         ]);
-        return CommentResource::collection(
-            Comment::with('user')
-                ->latest()
-                ->where('movie_id', $data['movie_id'])
-                ->orderBy('id', 'desc')
-                ->limit(1)
-                ->get()
-        );
+        $movie = Movie::find($data['movie_id']);
+        $commentators = $movie->comments->pluck('user_id')->toArray();
+        SendEmailWhenMovieIsCommented::dispatch($commentators);
+        return new CommentResource($comment);
     }
 
     /**
