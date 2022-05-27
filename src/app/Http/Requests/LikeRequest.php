@@ -25,7 +25,7 @@ class LikeRequest extends FormRequest
     {
         return [
             'movie_id' => 'int|required|exists:movies,id',
-            'like' => 'boolean|required'
+            'like' => 'int|required'
         ];
     }
 }

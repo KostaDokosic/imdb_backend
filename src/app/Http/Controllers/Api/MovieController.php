@@ -4,10 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FilterRequest;
+use App\Http\Requests\StoreMovieRequest;
 use App\Http\Resources\MovieResource;
 use App\Models\Movie\Movie;
 use Illuminate\Http\Request;
-use \App\Http\Requests\StoreMovieRequest;
+
 
 class MovieController extends Controller
 {
@@ -29,22 +30,27 @@ class MovieController extends Controller
         return MovieResource::collection($query->paginate(8));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreMovieRequest  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(StoreMovieRequest $request)
     {
+        //return $request->header();
         $data = $request->validated();
-        $movie = Movie::create([
-            'title' => $data['title'],
-            'description' => $data['description'],
-            'coverImage' => $data['coverImage'],
-        ]);
-        $movie->genres()->attach($data['genre_ids']);
-        return response('success', 200);
+        if($request->hasFile('coverImage'))
+        {
+            $imageFile = $request->file('coverImage')->getClientOriginalName();
+            $path = 'public/movie_images/';
+            $request->file('coverImage')->storeAs($path, $imageFile);
+
+            $movie = Movie::create([
+                'title' => $data['title'],
+                'description' => $data['description'],
+                'coverImage' => 'storage/movie_images/' . $imageFile
+            ]);
+            $movie->genres()->attach($request->genre_ids);
+
+            return new MovieResource($movie);
+        }
+        return ['result' => false];
     }
 
     /**
